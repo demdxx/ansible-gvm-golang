@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  author: Dmitry Ponomarev
+  description: Install golang from GVM
+  min_ansible_version: 1.6.3
+  categories:
+    - dev
+
+dependencies: []

@@ -1,0 +1,56 @@
+- name: Install Golang gvm
+  sudo: false
+  register: gvm_result
+  shell: bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+      executable="/bin/bash"
+  ignore_errors: true
+  tags:
+    - golang
+
+# - name: Register GVM
+#   sudo: false
+#   when: gvm_result|success
+#   # shell: echo "[[ -s \"$HOME/.gvm/scripts/gvm\" ]] && source \"$HOME/.gvm/scripts/gvm\"" >> ~/.profile && echo "[[ -s \"$HOME/.gvm/scripts/gvm\" ]] && source \"$HOME/.gvm/scripts/gvm\"" >> ~/.bash_profile && source ~/.bash_profile
+#   shell: echo "source \"$HOME/.gvm/scripts/gvm\"" >> ~/.profile && echo "source \"$HOME/.gvm/scripts/gvm\"" >> ~/.bash_profile && source ~/.bash_profile
+#     executable="/bin/bash"
+
+# - name: Install Golang version 1.4
+#   sudo: false
+#   shell: source ~/.bash_profile && gvm install go1.4
+#     executable="/bin/bash"
+#   ignore_errors: false
+
+# - name: Start gvm 1.4
+#   when: gvm_result|success
+#   sudo: false
+#   shell: source ~/.bash_profile && gvm use go1.4 --default
+#     executable="/bin/bash"
+#   ignore_errors: false
+
+# - name: Register Go1.4 bootstrap
+#   sudo: false
+#   when: gvm_result|success
+#   shell: echo "export GOROOT_BOOTSTRAP='`which `'" >> ~/.bash_profile
+#     executable="/bin/bash"
+
+- name: Install Golang version 1.4
+  sudo: false
+  script: install.sh
+  ignore_errors: false
+  tags:
+    - golang
+
+- name: Install Golang target version
+  sudo: false
+  shell: source ~/.bash_profile && gvm install go{{ go_version }} executable="/bin/bash"
+  ignore_errors: false
+  notify: start gvm
+  tags:
+    - golang
+
+- name: Activate Golang target version
+  sudo: false
+  shell: source ~/.bash_profile && gvm use {{ go_version }} --default
+    executable="/bin/bash"
+  tags:
+    - golang

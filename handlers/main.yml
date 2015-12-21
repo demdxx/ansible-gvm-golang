@@ -1,0 +1,7 @@
+- name: start gvm 1.4
+  sudo: no
+  raw: source ~/.bash_profile && gvm use 1.4 --default
+
+- name: start gvm
+  sudo: no
+  raw: source ~/.bash_profile && gvm use {{ go_version }} --default
